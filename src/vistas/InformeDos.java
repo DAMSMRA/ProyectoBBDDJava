@@ -25,15 +25,25 @@ public class InformeDos extends javax.swing.JDialog {
     
     DefaultTableModel modeloTabla1 = (DefaultTableModel) Tabla1.getModel();
 
+    //ESTABLECE LA CONEXION CON LA BASE DE DATOS
     Conexion.conectar();
+    
+    //CARGA LOS DATOS DEL INFORME DOS EN LA TABLA UNO
     Conexion.datosInformeUno(modeloTabla1);
+    
+    //CIERRA LA CONEXION A LA BASE DE DATOS
     Conexion.cerrarConexion();
 
 
     DefaultTableModel modeloTabla2 = (DefaultTableModel) Tabla2.getModel();
 
+    //ESTABLECE LA CONEXION CON LA BASE DE DATOS
     Conexion.conectar();
+    
+    //CARGA LOS DATOS DEL INFORME DOS EN LA TABLA DOS
     Conexion.datosInformeDos(modeloTabla2);
+    
+    //CIERRA LA CONEXION A LA BASE DE DATOS
     Conexion.cerrarConexion();
 }
     

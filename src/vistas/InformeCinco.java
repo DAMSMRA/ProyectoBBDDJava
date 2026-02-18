@@ -23,8 +23,13 @@ public class InformeCinco extends javax.swing.JDialog {
         initComponents();
         DefaultTableModel InformeCinco = (DefaultTableModel) Tabla.getModel();
         
+        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
         Conexion.conectar();
+        
+        //CARGA LOS DATOS DEL INFORME CINCO EN LA TABLA
         Conexion.datosInformeCinco(InformeCinco);
+        
+        //CIERRA LA CONEXION A LA BASE DE DATOS
         Conexion.cerrarConexion();
     }
 

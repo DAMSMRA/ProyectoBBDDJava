@@ -23,8 +23,13 @@ public class InformeTres extends javax.swing.JDialog {
         initComponents();
         DefaultTableModel InformeTres = (DefaultTableModel) Tabla.getModel();
         
+        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
         Conexion.conectar();
+        
+        //CARGA LOS DATOS DEL INFORME TRES EN LA TABLA
         Conexion.datosInformeTres(InformeTres);
+        
+        //CIERRA LA CONEXION A LA BASE DE DATOS
         Conexion.cerrarConexion();
     }
 

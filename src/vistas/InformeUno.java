@@ -23,8 +23,13 @@ public class InformeUno extends javax.swing.JDialog {
         initComponents();
         DefaultTableModel InformeUno = (DefaultTableModel) Tabla.getModel();
         
+        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
         Conexion.conectar();
+        
+        //CARGA LOS DATOS DEL INFORME UNO EN LA TABLA 
         Conexion.datosInformeUno(InformeUno);
+        
+        //CIERRA LA CONEXION A LA BASE DE DATOS
         Conexion.cerrarConexion(); 
     }
 

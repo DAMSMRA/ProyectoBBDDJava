@@ -23,8 +23,13 @@ public class InformeCuatro extends javax.swing.JDialog {
         initComponents();
         DefaultTableModel InformeCuatro = (DefaultTableModel) Tabla.getModel();
         
+        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
         Conexion.conectar();
+        
+        //CARGA LOS DATOS DEL INFORME CUATRO EN LA TABLA
         Conexion.datosInformeCuatro(InformeCuatro);
+        
+        //CIERRA LA CONEXION A LA BASE DE DATOS
         Conexion.cerrarConexion();
     }
 
