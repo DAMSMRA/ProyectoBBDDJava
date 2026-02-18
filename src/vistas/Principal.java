@@ -4,6 +4,7 @@
  */
 package vistas;
 
+import bbdd.Conexion;
 
 /**
  *
@@ -18,6 +19,9 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        CampoLibros.setText(Integer.toString(Conexion.cargarVentas()));
+        CampoVolumenes.setText(Integer.toString(Conexion.cargarVentas()));
+        CampoVenta.setText(Integer.toString(Conexion.cargarVentas()));
 
     }
 
