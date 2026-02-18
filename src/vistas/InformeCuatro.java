@@ -4,6 +4,9 @@
  */
 package vistas;
 
+import bbdd.Conexion;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author lajot
@@ -18,6 +21,11 @@ public class InformeCuatro extends javax.swing.JDialog {
     public InformeCuatro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        DefaultTableModel InformeCuatro = (DefaultTableModel) Tabla.getModel();
+        
+        Conexion.conectar();
+        Conexion.datosInformeCuatro(InformeCuatro);
+        Conexion.cerrarConexion();
     }
 
     /**
@@ -33,7 +41,7 @@ public class InformeCuatro extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla4 = new javax.swing.JTable();
+        Tabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -62,12 +70,12 @@ public class InformeCuatro extends javax.swing.JDialog {
                 .addGap(31, 31, 31))
         );
 
-        Tabla4.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "COMUNIDADES AUTONOMAS", "LIBROS"
+                "COMUNIDADES AUTONOMAS", "NUMERO DE LIBROS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -78,7 +86,7 @@ public class InformeCuatro extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(Tabla4);
+        jScrollPane1.setViewportView(Tabla);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -162,7 +170,7 @@ public class InformeCuatro extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable Tabla4;
+    private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

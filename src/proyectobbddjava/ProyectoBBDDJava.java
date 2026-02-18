@@ -4,6 +4,8 @@
  */
 package proyectobbddjava;
 
+import vistas.Principal;
+
 /**
  *
  * @author lajot
@@ -14,7 +16,8 @@ public class ProyectoBBDDJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Principal vp = new Principal ();
+        vp.setVisible(true);// TODO code application logic here
     }
     
 }

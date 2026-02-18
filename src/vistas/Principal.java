@@ -188,7 +188,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonInforme1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInforme1ActionPerformed
-             InformeUno i1 = new InformeUno (this, true);
+        InformeUno i1 = new InformeUno (this, true);
         i1.setVisible(true);
     }//GEN-LAST:event_BotonInforme1ActionPerformed
 
