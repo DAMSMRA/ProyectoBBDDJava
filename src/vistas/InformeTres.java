@@ -21,7 +21,6 @@ public class InformeTres extends javax.swing.JDialog {
     public InformeTres(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
         DefaultTableModel modelo = Conexion.getInforme3(" '1%' ");
         Tabla.setModel(modelo);
 
@@ -144,12 +143,7 @@ public class InformeTres extends javax.swing.JDialog {
 
     private void ComboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboSeleccionarActionPerformed
 
-    }//GEN-LAST:event_ComboSeleccionarActionPerformed
-
-    private void ComboSeleccionarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboSeleccionarItemStateChanged
-                                                           
-
-    String seleccion = ComboSeleccionar.getSelectedItem().toString();
+        
     int idSeccion =ComboSeleccionar.getSelectedIndex();
 
     DefaultTableModel modelo;
@@ -189,8 +183,12 @@ public class InformeTres extends javax.swing.JDialog {
             consulta = " '9%' ";
             break;
     }
-     modelo = Conexion.getInforme3(" '1%' ");
+     modelo = Conexion.getInforme3(consulta);
         Tabla.setModel(modelo);
+    }//GEN-LAST:event_ComboSeleccionarActionPerformed
+
+    private void ComboSeleccionarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboSeleccionarItemStateChanged
+                                                           
     }//GEN-LAST:event_ComboSeleccionarItemStateChanged
 
     /**
