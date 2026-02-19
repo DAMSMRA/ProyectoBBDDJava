@@ -21,16 +21,10 @@ public class InformeTres extends javax.swing.JDialog {
     public InformeTres(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        DefaultTableModel InformeTres = (DefaultTableModel) Tabla.getModel();
         
-        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
-        Conexion.conectar();
-        
-        //CARGA LOS DATOS DEL INFORME TRES EN LA TABLA
-        Conexion.datosInformeTres(InformeTres);
-        
-        //CIERRA LA CONEXION A LA BASE DE DATOS
-        Conexion.cerrarConexion();
+        DefaultTableModel modelo = Conexion.getInforme3(" '1%' ");
+        Tabla.setModel(modelo);
+
     }
 
     /**
@@ -48,8 +42,10 @@ public class InformeTres extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        ComboSeleccionar = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
@@ -97,27 +93,38 @@ public class InformeTres extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Número de volúmenes en cada una de sus ubicaciones.");
 
+        ComboSeleccionar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
+        ComboSeleccionar.addItemListener(this::ComboSeleccionarItemStateChanged);
+        ComboSeleccionar.addActionListener(this::ComboSeleccionarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(174, 174, 174)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(174, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel2)
+                        .addGap(26, 26, 26)
+                        .addComponent(ComboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(89, 89, 89)
-                .addComponent(jLabel2)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(ComboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,7 +139,59 @@ public class InformeTres extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ComboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboSeleccionarActionPerformed
+
+    }//GEN-LAST:event_ComboSeleccionarActionPerformed
+
+    private void ComboSeleccionarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboSeleccionarItemStateChanged
+                                                           
+
+    String seleccion = ComboSeleccionar.getSelectedItem().toString();
+    int idSeccion =ComboSeleccionar.getSelectedIndex();
+
+    DefaultTableModel modelo;
+
+    
+    
+    
+        String consulta="";
+    switch (idSeccion)
+    {
+        case 0:
+            consulta = " '1%' ";
+            break;
+
+        case 1:
+            consulta = " '2%' ";
+            break;
+        case 2:
+            consulta = " '3%' ";
+            break;
+        case 3:
+            consulta = " '4%' ";
+            break;
+        case 4:
+            consulta = " '5%' ";
+            break;
+        case 5:
+            consulta = " '6%' ";
+            break;
+        case 6:
+            consulta = " '7%' ";
+            break;
+        case 7:
+            consulta = " '8%' ";
+            break;
+        case 8:
+            consulta = " '9%' ";
+            break;
+    }
+     modelo = Conexion.getInforme3(" '1%' ");
+        Tabla.setModel(modelo);
+    }//GEN-LAST:event_ComboSeleccionarItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -172,6 +231,7 @@ public class InformeTres extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboSeleccionar;
     private javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -179,4 +239,8 @@ public class InformeTres extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+
+
+
 }

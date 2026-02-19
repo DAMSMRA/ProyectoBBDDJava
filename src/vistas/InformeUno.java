@@ -21,16 +21,8 @@ public class InformeUno extends javax.swing.JDialog {
     public InformeUno(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        DefaultTableModel InformeUno = (DefaultTableModel) Tabla.getModel();
-        
-        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
-        Conexion.conectar();
-        
-        //CARGA LOS DATOS DEL INFORME UNO EN LA TABLA 
-        Conexion.datosInformeUno(InformeUno);
-        
-        //CIERRA LA CONEXION A LA BASE DE DATOS
-        Conexion.cerrarConexion(); 
+
+        Tabla.setModel(bbdd.Conexion.datosInformeUno());
     }
 
     /**
@@ -50,6 +42,7 @@ public class InformeUno extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
@@ -117,9 +110,9 @@ public class InformeUno extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(96, 96, 96)
                 .addComponent(jLabel3)
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,6 +127,7 @@ public class InformeUno extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

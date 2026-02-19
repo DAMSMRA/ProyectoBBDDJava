@@ -23,28 +23,10 @@ public class InformeDos extends javax.swing.JDialog {
     initComponents();
 
     
-    DefaultTableModel modeloTabla1 = (DefaultTableModel) Tabla1.getModel();
+    Tabla1.setModel(bbdd.Conexion.getInforme2Vendedores());
 
-    //ESTABLECE LA CONEXION CON LA BASE DE DATOS
-    Conexion.conectar();
-    
-    //CARGA LOS DATOS DEL INFORME DOS EN LA TABLA UNO
-    Conexion.datosInformeUno(modeloTabla1);
-    
-    //CIERRA LA CONEXION A LA BASE DE DATOS
-    Conexion.cerrarConexion();
+    Tabla2.setModel(bbdd.Conexion.datosInformeDos());
 
-
-    DefaultTableModel modeloTabla2 = (DefaultTableModel) Tabla2.getModel();
-
-    //ESTABLECE LA CONEXION CON LA BASE DE DATOS
-    Conexion.conectar();
-    
-    //CARGA LOS DATOS DEL INFORME DOS EN LA TABLA DOS
-    Conexion.datosInformeDos(modeloTabla2);
-    
-    //CIERRA LA CONEXION A LA BASE DE DATOS
-    Conexion.cerrarConexion();
 }
     
 
@@ -67,6 +49,7 @@ public class InformeDos extends javax.swing.JDialog {
         Tabla2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
@@ -140,26 +123,26 @@ public class InformeDos extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+                        .addGap(82, 82, 82)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(jLabel3)))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addGap(109, 109, 109)
                 .addComponent(jLabel3)
-                .addGap(30, 30, 30)
+                .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(118, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,6 +157,7 @@ public class InformeDos extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

@@ -19,9 +19,9 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        CampoLibros.setText(Integer.toString(Conexion.cargarVentas()));
-        CampoVolumenes.setText(Integer.toString(Conexion.cargarVentas()));
-        CampoVenta.setText(Integer.toString(Conexion.cargarVentas()));
+        CampoLibros.setText(Integer.toString(Conexion.obtenerTotalLibros()));
+        CampoVolumenes.setText(Integer.toString(Conexion.obtenerTotalVolumenes()));
+        CampoVenta.setText(Integer.toString(Conexion.obtenerTotalVentasGlobal()));
 
     }
 
@@ -56,6 +56,7 @@ public class Principal extends javax.swing.JFrame {
         CampoVentas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
@@ -111,19 +112,16 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
-        CampoLibros.setBackground(new java.awt.Color(255, 255, 255));
+        CampoLibros.setEditable(false);
         CampoLibros.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CampoLibros.setForeground(new java.awt.Color(255, 255, 255));
         CampoLibros.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        CampoVenta.setBackground(new java.awt.Color(255, 255, 255));
+        CampoVenta.setEditable(false);
         CampoVenta.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CampoVenta.setForeground(new java.awt.Color(255, 255, 255));
         CampoVenta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        CampoVolumenes.setBackground(new java.awt.Color(255, 255, 255));
+        CampoVolumenes.setEditable(false);
         CampoVolumenes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        CampoVolumenes.setForeground(new java.awt.Color(255, 255, 255));
         CampoVolumenes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -194,6 +192,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonInforme1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInforme1ActionPerformed
