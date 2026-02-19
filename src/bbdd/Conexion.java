@@ -60,6 +60,12 @@ public class Conexion {
         }
     }
     
+    /**
+     * 
+     * @param sql
+     * @return 
+     */
+    
     private static int ejecutarConteo(String sql) {
         int resultado = 0;
         conectar();
@@ -74,8 +80,13 @@ public class Conexion {
         }
         return resultado;
     }
+    
+    
 /**
- * 
+ * Obtiene el número total de libros registrados en la base de datos.
+ *
+ * Usa el método genérico ejecutarConteo para reutilizar lógica.
+ *
  * @return 
  */
     
@@ -83,7 +94,12 @@ public class Conexion {
     return ejecutarConteo("SELECT COUNT(*) FROM libros");
 }
 
-// 2. Número total de volúmenes en almacén [cite: 88]
+/**
+ * Obtiene el número total de volúmenes físicos en almacén.
+ * Suma el stock de todos los libros.
+ *
+ * @return t
+ */
 public static int obtenerTotalVolumenes() {
     int resultado = 0;
     conectar();
@@ -96,15 +112,27 @@ public static int obtenerTotalVolumenes() {
     return resultado;
 }
 
-// 3. Número total de ventas (Suma de ambas tablas) [cite: 89]
+/**
+ * Obtiene el total global de ventas sumando:
+ * - ventas en tienda
+ * - ventas online
+ *
+ * @return 
+ */
 public static int obtenerTotalVentasGlobal() {
     return ejecutarConteo("SELECT (SELECT COUNT(*) FROM ventas_tienda) + (SELECT COUNT(*) FROM ventas_online)");
 }
 
     /**
-     * 
-     * @return 
-     */
+ * Genera el informe 1:
+ * Top 10 editoriales con más libros registrados.
+ *
+ * Columnas:
+ * - EDITORIAL
+ * - LIBROS
+ *
+ * @return 
+ */
     public static DefaultTableModel datosInformeUno() {
         String[] col = {"EDITORIAL", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -121,6 +149,18 @@ public static int obtenerTotalVentasGlobal() {
         return model;
     }
     
+    
+    /**
+ * Genera el informe de facturación por vendedores activos.
+ *
+ * Columnas:
+ * - VENDEDOR
+ * - FACTURACION
+ *
+ * Solo se incluyen vendedores con estado 'Activo'.
+ *
+ * @return 
+ */
     
     public static DefaultTableModel getInforme2Vendedores() {
     String[] col = {"VENDEDOR", "FACTURACION"};
@@ -151,9 +191,15 @@ public static int obtenerTotalVentasGlobal() {
 }
 
     /**
-     * 
-     * @return 
-     */
+ * Genera informe de facturación por plataforma online.
+ *
+ * Columnas:
+ * - PLATAFORMA
+ * - FACTURACION
+ *
+ * @return 
+ */
+    
     public static DefaultTableModel datosInformeDos() {
         String[] col = {"PLATAFORMA", "FACTURACION"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -171,10 +217,17 @@ public static int obtenerTotalVentasGlobal() {
     }
 
     /**
-     * 
-     * @param seccion
-     * @return 
-     */
+ * Genera informe de volúmenes por ubicación física.
+ *
+ * Usa un filtro dinámico por sección (LIKE) para escoger el numero por el que empieza la seccion
+ *
+ * Columnas:
+ * - UBICACION
+ * - VOLUMENES
+ *
+ * @return 
+ */
+    
     public static DefaultTableModel getInforme3(String seccion) {
     String[] columnas = {"UBICACION", "VOLUMENES"};
     DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
@@ -200,16 +253,21 @@ public static int obtenerTotalVentasGlobal() {
     }
     return modelo;
 }
-
-    /**
-     * 
-     * @return 
-     */
+/**
+ * Informe de libros por Comunidad Autónoma (CCAA).
+ *
+ * Columnas:
+ * - CCAA
+ * - LIBROS
+ *
+ * @return DefaultTableModel
+ */
+    
     public static DefaultTableModel datosInformeCuatro() {
         String[] col = {"CCAA", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
         conectar();
-        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT le.ccaa, COUNT(l.idLibro) FROM lugar_edicion le JOIN libros l ON le.idLugar = l.idLugar GROUP BY 1")) {
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT le.ccaa, COUNT(l.idLibro) FROM lugar_edicion le JOIN libros l ON le.idLugar = l.idLugar GROUP BY 1 ORDER BY COUNT(l.idLibro) DESC ")) {
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getString(1), rs.getInt(2)});
             }
@@ -222,9 +280,15 @@ public static int obtenerTotalVentasGlobal() {
     }
 
     /**
-     * 
-     * @return 
-     */
+ * Informe Top 5 ciudades con más libros registrados.
+ *
+ * Columnas:
+ * - CIUDAD
+ * - LIBROS
+ *
+ * @return DefaultTableModel
+ */
+    
     public static DefaultTableModel datosInformeCinco() {
         String[] col = {"CIUDAD", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);

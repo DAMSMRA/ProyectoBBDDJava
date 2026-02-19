@@ -111,7 +111,7 @@ public class InformeTres extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +123,7 @@ public class InformeTres extends javax.swing.JDialog {
                     .addComponent(ComboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,14 +143,19 @@ public class InformeTres extends javax.swing.JDialog {
 
     private void ComboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboSeleccionarActionPerformed
 
-        
+     /**
+ * Obtiene el índice seleccionado del ComboBox "ComboSeleccionar".
+ * Este índice representa la sección elegida por el usuario en la interfaz.
+ *
+ * Cada índice se corresponde con una sección lógica del almacén
+ * que será usada como filtro para la consulta SQL.
+ */
+     
     int idSeccion =ComboSeleccionar.getSelectedIndex();
 
     DefaultTableModel modelo;
 
-    
-    
-    
+        
         String consulta="";
     switch (idSeccion)
     {
@@ -183,8 +188,11 @@ public class InformeTres extends javax.swing.JDialog {
             consulta = " '9%' ";
             break;
     }
+    
+    
      modelo = Conexion.getInforme3(consulta);
         Tabla.setModel(modelo);
+        
     }//GEN-LAST:event_ComboSeleccionarActionPerformed
 
     private void ComboSeleccionarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboSeleccionarItemStateChanged
