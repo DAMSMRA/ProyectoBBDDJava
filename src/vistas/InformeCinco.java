@@ -21,16 +21,7 @@ public class InformeCinco extends javax.swing.JDialog {
     public InformeCinco(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        DefaultTableModel InformeCinco = (DefaultTableModel) Tabla.getModel();
-        
-        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
-        Conexion.conectar();
-        
-        //CARGA LOS DATOS DEL INFORME CINCO EN LA TABLA
-        Conexion.datosInformeCinco(InformeCinco);
-        
-        //CIERRA LA CONEXION A LA BASE DE DATOS
-        Conexion.cerrarConexion();
+        Tabla.setModel(bbdd.Conexion.datosInformeCinco());
     }
 
     /**
@@ -50,6 +41,7 @@ public class InformeCinco extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
@@ -132,6 +124,7 @@ public class InformeCinco extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
