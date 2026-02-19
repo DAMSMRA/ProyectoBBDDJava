@@ -111,8 +111,8 @@ public class InformeCuatro extends javax.swing.JDialog {
                 .addGap(89, 89, 89)
                 .addComponent(jLabel3)
                 .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
