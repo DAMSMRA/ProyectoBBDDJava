@@ -21,15 +21,8 @@ public class InformeCuatro extends javax.swing.JDialog {
     public InformeCuatro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        DefaultTableModel InformeCuatro = (DefaultTableModel) Tabla.getModel();
         
-        //ESTABLECE LA CONEXION CON LA BASE DE DATOS
-        Conexion.conectar();
-        
-        //CARGA LOS DATOS DEL INFORME CUATRO EN LA TABLA
-        
-        //CIERRA LA CONEXION A LA BASE DE DATOS
-        Conexion.cerrarConexion();
+        Tabla.setModel(bbdd.Conexion.datosInformeCuatro());
     }
 
     /**
