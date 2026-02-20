@@ -21,7 +21,7 @@ public class InformeTres extends javax.swing.JDialog {
     public InformeTres(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        DefaultTableModel modelo = Conexion.getInforme3(" '1%' ");
+        DefaultTableModel modelo = Conexion.datosInformeTres(" '1%' ");
         Tabla.setModel(modelo);
 
     }
@@ -86,6 +86,9 @@ public class InformeTres extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        Tabla.setEnabled(false);
+        Tabla.getTableHeader().setResizingAllowed(false);
+        Tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Tabla);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -190,7 +193,7 @@ public class InformeTres extends javax.swing.JDialog {
     }
     
     
-     modelo = Conexion.getInforme3(consulta);
+     modelo = Conexion.datosInformeTres(consulta);
         Tabla.setModel(modelo);
         
     }//GEN-LAST:event_ComboSeleccionarActionPerformed

@@ -84,6 +84,9 @@ public class InformeUno extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        Tabla.setEnabled(false);
+        Tabla.getTableHeader().setResizingAllowed(false);
+        Tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Tabla);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N

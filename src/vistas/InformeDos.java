@@ -23,9 +23,9 @@ public class InformeDos extends javax.swing.JDialog {
     initComponents();
 
     
-    Tabla1.setModel(bbdd.Conexion.getInforme2Vendedores());
+    Tabla1.setModel(bbdd.Conexion.datosInformeDosVendedores());
 
-    Tabla2.setModel(bbdd.Conexion.datosInformeDos());
+    Tabla2.setModel(bbdd.Conexion.datosInformeDosPlataformas());
 
 }
     
@@ -49,6 +49,7 @@ public class InformeDos extends javax.swing.JDialog {
         Tabla2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setEnabled(false);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
@@ -91,6 +92,8 @@ public class InformeDos extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        Tabla1.getTableHeader().setResizingAllowed(false);
+        Tabla1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Tabla1);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -113,6 +116,8 @@ public class InformeDos extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        Tabla2.getTableHeader().setResizingAllowed(false);
+        Tabla2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(Tabla2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
