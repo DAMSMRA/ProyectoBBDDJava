@@ -19,12 +19,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author song
  */
-
 public class Conexion {
 
     public static Connection conn;
 
-    
     /**
      * Método donde se establecen en los parámetros de conexión con la base de
      * datos se llamará a este método previa realización de actividades en base
@@ -32,7 +30,6 @@ public class Conexion {
      *
      * @return
      */
-    
     public static Connection conectar() {
 
         try {
@@ -49,11 +46,9 @@ public class Conexion {
 
     }
 
-    
     /**
      * metodo para cerrar la conexion con la base de datos
      */
-    
     public static void cerrarConexion() {
         try {
             conn.close();
@@ -62,13 +57,13 @@ public class Conexion {
         }
     }
 
-    
     /**
-     * Ejecuta una consulta SQL SELECT que devuelve un conteo y retorna ese número
+     * Ejecuta una consulta SQL SELECT que devuelve un conteo y retorna ese
+     * número
+     *
      * @param sql
      * @return
      */
-    
     private static int ejecutarConteo(String sql) {
         int resultado = 0;
         conectar();
@@ -84,24 +79,22 @@ public class Conexion {
         return resultado;
     }
 
-    
     /**
-     * Obtiene el número total de libros registrados en la base de datos.
-     * Usa el método genérico ejecutarConteo para reutilizar lógica.
+     * Obtiene el número total de libros registrados en la base de datos. Usa el
+     * método genérico ejecutarConteo para reutilizar lógica.
+     *
      * @return
      */
-    
     public static int obtenerTotalLibros() {
         return ejecutarConteo("SELECT COUNT(*) FROM libros");
     }
 
-    
     /**
      * Obtiene el número total de volúmenes físicos en almacén. Suma el stock de
      * todos los libros.
+     *
      * @return t
      */
-    
     public static int obtenerTotalVolumenes() {
         int resultado = 0;
         conectar();
@@ -117,25 +110,22 @@ public class Conexion {
         return resultado;
     }
 
-    
     /**
      * Obtiene el total global de ventas sumando: - ventas en tienda - ventas
      * online
+     *
      * @return
      */
-    
     public static int obtenerTotalVentasGlobal() {
         return ejecutarConteo("SELECT (SELECT COUNT(*) FROM ventas_tienda) + (SELECT COUNT(*) FROM ventas_online)");
     }
-    
-    
+
     //Aqui comienzan los metodos para generar los informes
     //____________________________________________________________________________________________________________________________
-
-    
     /**
      * Genera el informe 1: Top 10 editoriales con más libros registrados.
      * Columnas: - EDITORIAL - LIBROS
+     *
      * @return
      */
     public static DefaultTableModel datosInformeUno() {
@@ -154,14 +144,12 @@ public class Conexion {
         return model;
     }
 
-    
     /**
-     * Genera el informe de facturación por vendedores activos.
-     * Columnas: - VENDEDOR - FACTURACION
-     * Solo se incluyen vendedores con estado 'Activo'.
+     * Genera el informe de facturación por vendedores activos. Columnas: -
+     * VENDEDOR - FACTURACION Solo se incluyen vendedores con estado 'Activo'.
+     *
      * @return
      */
-    
     public static DefaultTableModel datosInformeDosVendedores() {
         String[] col = {"VENDEDOR", "FACTURACION"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -188,13 +176,12 @@ public class Conexion {
         return model;
     }
 
-    
     /**
-     * Genera informe de facturación por plataforma online.
-     * Columnas: - PLATAFORMA - FACTURACION
+     * Genera informe de facturación por plataforma online. Columnas: -
+     * PLATAFORMA - FACTURACION
+     *
      * @return
      */
-    
     public static DefaultTableModel datosInformeDosPlataformas() {
         String[] col = {"PLATAFORMA", "FACTURACION"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -211,15 +198,13 @@ public class Conexion {
         return model;
     }
 
-    
     /**
-     * Genera informe de volúmenes por ubicación física.
-     * Usa un filtro dinámico por sección (LIKE) para escoger el numero por el
-     * que empieza la seccion
+     * Genera informe de volúmenes por ubicación física. Usa un filtro dinámico
+     * por sección (LIKE) para escoger el numero por el que empieza la seccion
      * Columnas: - UBICACION - VOLUMENES
+     *
      * @return
      */
-    
     public static DefaultTableModel datosInformeTres(String seccion) {
         String[] columnas = {"UBICACION", "VOLUMENES"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
@@ -245,13 +230,12 @@ public class Conexion {
         return modelo;
     }
 
-    
     /**
-     * Informe de libros por Comunidad Autónoma (CCAA).
-     * Columnas: - CCAA - LIBROS
+     * Informe de libros por Comunidad Autónoma (CCAA). Columnas: - CCAA -
+     * LIBROS
+     *
      * @return DefaultTableModel
      */
-    
     public static DefaultTableModel datosInformeCuatro() {
         String[] col = {"CCAA", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -268,13 +252,12 @@ public class Conexion {
         return model;
     }
 
-    
     /**
-     * Informe Top 5 ciudades con más libros registrados.
-     * Columnas: - CIUDAD - LIBROS
+     * Informe Top 5 ciudades con más libros registrados. Columnas: - CIUDAD -
+     * LIBROS
+     *
      * @return DefaultTableModel
      */
-    
     public static DefaultTableModel datosInformeCinco() {
         String[] col = {"CIUDAD", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -290,55 +273,61 @@ public class Conexion {
         }
         return model;
     }
+
     
     /**
- * Obtiene los tres libros más vendidos en tienda física.
- * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
- */
-public static DefaultTableModel obtenerTopVentasTienda() {
-    String[] col = {"LIBROS", "VOLUMENES", "VENTA"};
-    DefaultTableModel model = new DefaultTableModel(col, 0);
-    String sql = "SELECT l.titulo, l.stock, COUNT(vt.idVenta) " +
-                 "FROM libros l " +
-                 "JOIN ventas_tienda vt ON l.idLibro = vt.idLibro " +
-                 "GROUP BY l.idLibro " +
-                 "ORDER BY 3 DESC LIMIT 3";
-    conectar();
-    try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
-        while (rs.next()) {
-            model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+     * Obtiene los tres libros más vendidos en tienda física.
+     *
+     * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
+     */
+    
+    public static DefaultTableModel obtenerTopVentasTienda() {
+        String[] col = {"LIBROS", "VENTA"};
+        DefaultTableModel model = new DefaultTableModel(col, 0);
+        String sql = "SELECT l.titulo, l.stock, COUNT(vt.idVenta) "
+                + "FROM libros l "
+                + "JOIN ventas_tienda vt ON l.idLibro = vt.idLibro "
+                + "GROUP BY l.idLibro "
+                + "ORDER BY 3 DESC LIMIT 3";
+        conectar();
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+            }
+        } catch (SQLException ex) {
+            System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            cerrarConexion();
         }
-    } catch (SQLException ex) {
-       System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-    } finally {
-        cerrarConexion();
+        return model;
     }
-    return model;
-}
 
-/**
- * Obtiene los tres libros más vendidos a través de plataformas online.
- * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
- */
-public static DefaultTableModel obtenerTopVentasOnline() {
-    String[] col = {"LIBROS", "VOLUMENES", "VENTA"};
-    DefaultTableModel model = new DefaultTableModel(col, 0);
-    String sql = "SELECT l.titulo, l.stock, COUNT(vo.idVenta) " +
-                 "FROM libros l " +
-                 "JOIN ventas_online vo ON l.idLibro = vo.idLibro " +
-                 "GROUP BY l.idLibro " +
-                 "ORDER BY 3 DESC LIMIT 3";
-    conectar();
-    try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
-        while (rs.next()) {
-            model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+    
+    /**
+     * Obtiene los tres libros más vendidos a través de plataformas online.
+     *
+     * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
+     */
+    
+    public static DefaultTableModel obtenerTopVentasOnline() {
+        String[] col = {"LIBROS", "VENTA"};
+        DefaultTableModel model = new DefaultTableModel(col, 0);
+        String sql = "SELECT l.titulo, l.stock, COUNT(vo.idVenta) "
+                + "FROM libros l "
+                + "JOIN ventas_online vo ON l.idLibro = vo.idLibro "
+                + "GROUP BY l.idLibro "
+                + "ORDER BY 3 DESC LIMIT 3";
+        conectar();
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+            }
+        } catch (SQLException ex) {
+            System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            cerrarConexion();
         }
-    } catch (SQLException ex) {
-       System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-    } finally {
-        cerrarConexion();
+        return model;
     }
-    return model;
-}
 
 }
