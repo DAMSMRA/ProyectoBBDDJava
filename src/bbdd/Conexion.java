@@ -290,5 +290,55 @@ public class Conexion {
         }
         return model;
     }
+    
+    /**
+ * Obtiene los tres libros más vendidos en tienda física.
+ * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
+ */
+public static DefaultTableModel obtenerTopVentasTienda() {
+    String[] col = {"LIBROS", "VOLUMENES", "VENTA"};
+    DefaultTableModel model = new DefaultTableModel(col, 0);
+    String sql = "SELECT l.titulo, l.stock, COUNT(vt.idVenta) " +
+                 "FROM libros l " +
+                 "JOIN ventas_tienda vt ON l.idLibro = vt.idLibro " +
+                 "GROUP BY l.idLibro " +
+                 "ORDER BY 3 DESC LIMIT 3";
+    conectar();
+    try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+        while (rs.next()) {
+            model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+        }
+    } catch (SQLException ex) {
+       System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+    } finally {
+        cerrarConexion();
+    }
+    return model;
+}
+
+/**
+ * Obtiene los tres libros más vendidos a través de plataformas online.
+ * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
+ */
+public static DefaultTableModel obtenerTopVentasOnline() {
+    String[] col = {"LIBROS", "VOLUMENES", "VENTA"};
+    DefaultTableModel model = new DefaultTableModel(col, 0);
+    String sql = "SELECT l.titulo, l.stock, COUNT(vo.idVenta) " +
+                 "FROM libros l " +
+                 "JOIN ventas_online vo ON l.idLibro = vo.idLibro " +
+                 "GROUP BY l.idLibro " +
+                 "ORDER BY 3 DESC LIMIT 3";
+    conectar();
+    try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+        while (rs.next()) {
+            model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+        }
+    } catch (SQLException ex) {
+       System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+    } finally {
+        cerrarConexion();
+    }
+    return model;
+}
 
 }
