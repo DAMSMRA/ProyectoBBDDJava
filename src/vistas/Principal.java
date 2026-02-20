@@ -19,9 +19,10 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        CampoLibros.setText(Integer.toString(Conexion.obtenerTotalLibros()));
-        CampoVolumenes.setText(Integer.toString(Conexion.obtenerTotalVolumenes()));
-        CampoVenta.setText(Integer.toString(Conexion.obtenerTotalVentasGlobal()));
+        Conexion.ResumenPrincipal datos = Conexion.obtenerResumenPrincipal();
+        CampoLibros.setText(datos.totalLibros + "");
+        CampoVolumenes.setText(datos.totalVolumenes + "");
+        CampoVenta.setText(datos.totalVentas + "");
         TablaTienda.setModel(bbdd.Conexion.obtenerTopVentasTienda());
         TablaOnline.setModel(bbdd.Conexion.obtenerTopVentasOnline());
                 

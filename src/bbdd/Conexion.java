@@ -79,46 +79,36 @@ public class Conexion {
         return resultado;
     }
 
-    /**
-     * Obtiene el número total de libros registrados en la base de datos. Usa el
-     * método genérico ejecutarConteo para reutilizar lógica.
-     *
-     * @return
-     */
-    public static int obtenerTotalLibros() {
-        return ejecutarConteo("SELECT COUNT(*) FROM libros");
-    }
+   public static class ResumenPrincipal {
+    public int totalLibros;
+    public int totalVolumenes;
+    public int totalVentas;
+}
 
-    /**
-     * Obtiene el número total de volúmenes físicos en almacén. Suma el stock de
-     * todos los libros.
-     *
-     * @return t
-     */
-    public static int obtenerTotalVolumenes() {
-        int resultado = 0;
-        conectar();
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery("SELECT SUM(stock) FROM libros")) {
-            if (rs.next()) {
-                resultado = rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } finally {
-            cerrarConexion();
+
+public static ResumenPrincipal obtenerResumenPrincipal() {
+    ResumenPrincipal resumen = new ResumenPrincipal();
+    
+    
+    String sql = "SELECT " +
+                 "(SELECT COUNT(*) FROM libros) AS totalLibros, " +
+                 "(SELECT SUM(stock) FROM libros) AS totalVolumenes, " +
+                 "((SELECT COUNT(*) FROM ventas_tienda) + (SELECT COUNT(*) FROM ventas_online)) AS totalVentas";
+
+    conectar();
+    try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        if (rs.next()) {
+            resumen.totalLibros = rs.getInt("totalLibros");
+            resumen.totalVolumenes = rs.getInt("totalVolumenes");
+            resumen.totalVentas = rs.getInt("totalVentas");
         }
-        return resultado;
+    } catch (SQLException ex) {
+        System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+    } finally {
+        cerrarConexion();
     }
-
-    /**
-     * Obtiene el total global de ventas sumando: - ventas en tienda - ventas
-     * online
-     *
-     * @return
-     */
-    public static int obtenerTotalVentasGlobal() {
-        return ejecutarConteo("SELECT (SELECT COUNT(*) FROM ventas_tienda) + (SELECT COUNT(*) FROM ventas_online)");
-    }
+    return resumen;
+}
 
     //Aqui comienzan los metodos para generar los informes
     //____________________________________________________________________________________________________________________________
