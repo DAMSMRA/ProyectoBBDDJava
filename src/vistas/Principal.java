@@ -228,11 +228,12 @@ public class Principal extends javax.swing.JFrame {
         jLabel6.setText("Tres libros más vendidos online");
 
         jPanel3.setBackground(new java.awt.Color(250, 245, 219));
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         CampoVolumenes.setEditable(false);
         CampoVolumenes.setBackground(new java.awt.Color(250, 245, 219));
-        CampoVolumenes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CampoVolumenes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        CampoVolumenes.setForeground(new java.awt.Color(102, 0, 0));
         CampoVolumenes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CampoVolumenes.setBorder(null);
         CampoVolumenes.addActionListener(this::CampoVolumenesActionPerformed);
@@ -275,11 +276,12 @@ public class Principal extends javax.swing.JFrame {
         jLabel3.getAccessibleContext().setAccessibleName("Número total de\n volúmenes en almacén ");
 
         jPanel5.setBackground(new java.awt.Color(250, 245, 219));
-        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         CampoVenta.setEditable(false);
         CampoVenta.setBackground(new java.awt.Color(250, 245, 219));
-        CampoVenta.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CampoVenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        CampoVenta.setForeground(new java.awt.Color(102, 0, 0));
         CampoVenta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CampoVenta.setBorder(null);
         CampoVenta.addActionListener(this::CampoVentaActionPerformed);
@@ -311,11 +313,12 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel6.setBackground(new java.awt.Color(250, 245, 219));
-        jPanel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         CampoLibros.setEditable(false);
         CampoLibros.setBackground(new java.awt.Color(250, 245, 219));
-        CampoLibros.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CampoLibros.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        CampoLibros.setForeground(new java.awt.Color(102, 0, 0));
         CampoLibros.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         CampoLibros.setBorder(null);
 
@@ -391,7 +394,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -57,13 +57,14 @@ public class Conexion {
         }
     }
 
+    
     /**
-     * Ejecuta una consulta SQL SELECT que devuelve un conteo y retorna ese
-     * número
+     * Ejecuta una consulta SQL de tipo conteo/agregación y devuelve un único valor entero.
      *
      * @param sql
      * @return
      */
+    
     private static int ejecutarConteo(String sql) {
         int resultado = 0;
         conectar();
@@ -79,45 +80,57 @@ public class Conexion {
         return resultado;
     }
 
-   public static class ResumenPrincipal {
-    public int totalLibros;
-    public int totalVolumenes;
-    public int totalVentas;
-}
+    public static class ResumenPrincipal {
 
-
-public static ResumenPrincipal obtenerResumenPrincipal() {
-    ResumenPrincipal resumen = new ResumenPrincipal();
-    
-    
-    String sql = "SELECT " +
-                 "(SELECT COUNT(*) FROM libros) AS totalLibros, " +
-                 "(SELECT SUM(stock) FROM libros) AS totalVolumenes, " +
-                 "((SELECT COUNT(*) FROM ventas_tienda) + (SELECT COUNT(*) FROM ventas_online)) AS totalVentas";
-
-    conectar();
-    try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-        if (rs.next()) {
-            resumen.totalLibros = rs.getInt("totalLibros");
-            resumen.totalVolumenes = rs.getInt("totalVolumenes");
-            resumen.totalVentas = rs.getInt("totalVentas");
-        }
-    } catch (SQLException ex) {
-        System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-    } finally {
-        cerrarConexion();
+        public int totalLibros;
+        public int totalVolumenes;
+        public int totalVentas;
     }
-    return resumen;
-}
+
+    
+    /**
+     * Obtiene un resumen general del sistema a partir de la base de datos.
+     * @return 
+     */
+
+    public static ResumenPrincipal obtenerResumenPrincipal() {
+        ResumenPrincipal resumen = new ResumenPrincipal();
+
+        String sql = "SELECT "
+                + "(SELECT COUNT(*) FROM libros) AS totalLibros, "
+                + "(SELECT SUM(stock) FROM libros) AS totalVolumenes, "
+                + "((SELECT COUNT(*) FROM ventas_tienda) + (SELECT COUNT(*) FROM ventas_online)) AS totalVentas";
+
+        conectar();
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                resumen.totalLibros = rs.getInt("totalLibros");
+                resumen.totalVolumenes = rs.getInt("totalVolumenes");
+                resumen.totalVentas = rs.getInt("totalVentas");
+            }
+        } catch (SQLException ex) {
+            System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            cerrarConexion();
+        }
+        return resumen;
+    }
 
     //Aqui comienzan los metodos para generar los informes
     //____________________________________________________________________________________________________________________________
+    
     /**
-     * Genera el informe 1: Top 10 editoriales con más libros registrados.
-     * Columnas: - EDITORIAL - LIBROS
+     * Genera y retorna un DefaultTableModel que contiene las 10 editoriales con
+     * mayor cantidad de libros registrados en la base de datos.
+     *
+     * La consulta realiza una INNER JOIN entre las tablas editoriales y
+     * libros, agrupa por nombre de editorial, cuenta los libros por
+     * editorial, ordena descendente por cantidad y limita el resultado a 10
+     * filas.
      *
      * @return
      */
+
     public static DefaultTableModel datosInformeUno() {
         String[] col = {"EDITORIAL", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -134,12 +147,17 @@ public static ResumenPrincipal obtenerResumenPrincipal() {
         return model;
     }
 
+    
     /**
-     * Genera el informe de facturación por vendedores activos. Columnas: -
-     * VENDEDOR - FACTURACION Solo se incluyen vendedores con estado 'Activo'.
+     * Genera y retorna un {@link javax.swing.table.DefaultTableModel} con la
+     * facturación total generada por cada vendedor que se encuentra en estado
+     * 'Activo'.
+     * La consulta calcula la suma de precios de todas las ventas asociadas a
+     * cada vendedor
      *
      * @return
      */
+    
     public static DefaultTableModel datosInformeDosVendedores() {
         String[] col = {"VENDEDOR", "FACTURACION"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -165,13 +183,15 @@ public static ResumenPrincipal obtenerResumenPrincipal() {
         }
         return model;
     }
-
+    
+    
     /**
      * Genera informe de facturación por plataforma online. Columnas: -
      * PLATAFORMA - FACTURACION
      *
      * @return
      */
+    
     public static DefaultTableModel datosInformeDosPlataformas() {
         String[] col = {"PLATAFORMA", "FACTURACION"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -187,39 +207,58 @@ public static ResumenPrincipal obtenerResumenPrincipal() {
         }
         return model;
     }
+    
+    
+     /**
+     * Genera y retorna un {@link javax.swing.table.DefaultTableModel} que
+     * muestra la facturación total generada por cada plataforma de ventas
+     * online.
+     * La consulta realiza un INNER JOIN entre las tablas plataformas y ventas_online, 
+     * suma el precio de todas las ventas agrupadas por cada plataforma y no aplica ningún filtro adicional 
+     * (todas las plataformas con al menos una venta aparecerán en el resultado).
+     *
+     * @param seccion
+     * @return
+     */
 
-   public static DefaultTableModel datosInformeTres(String seccion) {
-    String[] columnas = {"UBICACION", "VOLUMENES"};
-    DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+    public static DefaultTableModel datosInformeTres(String seccion) {
+        String[] columnas = {"UBICACION", "VOLUMENES"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-    // SQL Corregido: se añade un espacio antes de GROUP BY para evitar errores
-    String sql = "SELECT codUbicacion, SUM(stock) "
-            + "FROM libros "
-            + "WHERE codUbicacion LIKE " + seccion + " " 
-            + "GROUP BY codUbicacion";
+        String sql = "SELECT codUbicacion, SUM(stock) "
+                + "FROM libros "
+                + "WHERE codUbicacion LIKE " + seccion + " "
+                + "GROUP BY codUbicacion";
 
-    conectar();
-    try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-        while (rs.next()) {
-            modelo.addRow(new Object[]{
-                rs.getObject(1),
-                rs.getObject(2)
-            });
+        conectar();
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                modelo.addRow(new Object[]{
+                    rs.getObject(1),
+                    rs.getObject(2)
+                });
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error SQL: " + ex.getMessage());
+        } finally {
+            cerrarConexion();
         }
-    } catch (SQLException ex) {
-        System.err.println("Error SQL: " + ex.getMessage());
-    } finally {
-        cerrarConexion();
+        return modelo;
     }
-    return modelo;
-}
-  
+
+    
     /**
-     * Informe de libros por Comunidad Autónoma (CCAA). Columnas: - CCAA -
-     * LIBROS
+     * Genera y retorna un {@link javax.swing.table.DefaultTableModel} que
+     * muestra la cantidad total de libros editados por cada Comunidad Autónoma
+     * (CCAA) de España.
+     * 
+     * La consulta realiza un INNER JOIN entre las tablas lugar_edicionb y
+     * libros, cuenta los libros agrupados por Comunidad Autónoma  (campo
+     * ccaa), y ordena el resultado de mayor a menor cantidad de libros (sin límite explícito).
      *
      * @return DefaultTableModel
      */
+    
     public static DefaultTableModel datosInformeCuatro() {
         String[] col = {"CCAA", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);
@@ -236,12 +275,14 @@ public static ResumenPrincipal obtenerResumenPrincipal() {
         return model;
     }
 
+    
     /**
-     * Informe Top 5 ciudades con más libros registrados. Columnas: - CIUDAD -
-     * LIBROS
+     * Genera y retorna un {@link javax.swing.table.DefaultTableModel} con las 5 ciudades donde se han editado la mayor cantidad de libros (top 5 por
+     * número de libros). campo lugar (ciudad o lugar de edición), ordena descendente por conteo y limita estrictamente a las 5 primeras filas.
      *
      * @return DefaultTableModel
      */
+    
     public static DefaultTableModel datosInformeCinco() {
         String[] col = {"CIUDAD", "LIBROS"};
         DefaultTableModel model = new DefaultTableModel(col, 0);

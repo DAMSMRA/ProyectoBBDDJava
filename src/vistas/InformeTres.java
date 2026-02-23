@@ -74,7 +74,7 @@ public class InformeTres extends javax.swing.JDialog {
         jScrollPane1.setViewportView(Tabla);
 
         jLabel2.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
-        jLabel2.setText("Numero total de volumenes en sección");
+        jLabel2.setText("Numero total de volumenes en sección:");
 
         ComboSeleccionar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
         ComboSeleccionar.addItemListener(this::ComboSeleccionarItemStateChanged);
@@ -135,6 +135,8 @@ public class InformeTres extends javax.swing.JDialog {
         jLabel3.setText("Número de volúmenes en cada una de sus ubicaciones.");
 
         campoTotal.setEditable(false);
+        campoTotal.setBackground(new java.awt.Color(255, 255, 255));
+        campoTotal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         campoTotal.addActionListener(this::campoTotalActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -143,17 +145,17 @@ public class InformeTres extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(46, 75, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(75, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(106, 106, 106)
-                        .addComponent(campoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(campoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(ComboSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(65, 65, 65))
         );
         jPanel1Layout.setVerticalGroup(
@@ -169,8 +171,8 @@ public class InformeTres extends javax.swing.JDialog {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(campoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                    .addComponent(campoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,34 +192,26 @@ public class InformeTres extends javax.swing.JDialog {
 
     private void ComboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboSeleccionarActionPerformed
 
-
-     
-    // 1. Detectar qué sección se ha seleccionado (del 1 al 9)
+/**
+ * 
+ */
     int idSeccion = ComboSeleccionar.getSelectedIndex();
     
-    // 2. Preparar el filtro para SQL (sin espacios vacíos que den error)
     String consulta = "'" + (idSeccion + 1) + "%'"; 
 
-    // 3. Obtener los datos y llenar la TABLA
     DefaultTableModel modelo = Conexion.datosInformeTres(consulta);
     Tabla.setModel(modelo);
 
-    // 4. Calcular el TOTAL para tu campo separado
     int totalVols = 0;
     for (int i = 0; i < modelo.getRowCount(); i++) {
-        // Obtenemos el valor de la columna 1 (Volúmenes)
+
         Object valor = modelo.getValueAt(i, 1);
         if (valor != null) {
             totalVols += Integer.parseInt(valor.toString());
         }
     }
 
-    // 5. Mostrar el total en el TEXTFIELD separado
     campoTotal.setText(String.valueOf(totalVols));
-
-
-
-        
 
     }//GEN-LAST:event_ComboSeleccionarActionPerformed
 
@@ -232,6 +226,7 @@ public class InformeTres extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -279,8 +274,5 @@ public class InformeTres extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
-
-
 
 }
