@@ -45,7 +45,7 @@ public class InformeTres extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        ComboTotalVolumen = new javax.swing.JComboBox<>();
+        campoTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -134,8 +134,8 @@ public class InformeTres extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Serif", 2, 24)); // NOI18N
         jLabel3.setText("Número de volúmenes en cada una de sus ubicaciones.");
 
-        ComboTotalVolumen.addItemListener(this::ComboTotalVolumenItemStateChanged);
-        ComboTotalVolumen.addActionListener(this::ComboTotalVolumenActionPerformed);
+        campoTotal.setEditable(false);
+        campoTotal.addActionListener(this::campoTotalActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,11 +144,11 @@ public class InformeTres extends javax.swing.JDialog {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(46, 75, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ComboTotalVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(106, 106, 106)
+                        .addComponent(campoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
@@ -169,8 +169,8 @@ public class InformeTres extends javax.swing.JDialog {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(ComboTotalVolumen, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                    .addComponent(campoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,73 +190,44 @@ public class InformeTres extends javax.swing.JDialog {
 
     private void ComboSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboSeleccionarActionPerformed
 
-     /**
- * Obtiene el índice seleccionado del ComboBox "ComboSeleccionar".
- * Este índice representa la sección elegida por el usuario en la interfaz.
- *
- * Cada índice se corresponde con una sección lógica del almacén
- * que será usada como filtro para la consulta SQL.
- */
+
      
-    int idSeccion =ComboSeleccionar.getSelectedIndex();
+    // 1. Detectar qué sección se ha seleccionado (del 1 al 9)
+    int idSeccion = ComboSeleccionar.getSelectedIndex();
+    
+    // 2. Preparar el filtro para SQL (sin espacios vacíos que den error)
+    String consulta = "'" + (idSeccion + 1) + "%'"; 
 
-    DefaultTableModel modelo;
+    // 3. Obtener los datos y llenar la TABLA
+    DefaultTableModel modelo = Conexion.datosInformeTres(consulta);
+    Tabla.setModel(modelo);
 
-        
-        String consulta="";
-    switch (idSeccion)
-    {
-        case 0:
-            consulta = " '1%' ";
-            break;
-
-        case 1:
-            consulta = " '2%' ";
-            break;
-        case 2:
-            consulta = " '3%' ";
-            break;
-        case 3:
-            consulta = " '4%' ";
-            break;
-        case 4:
-            consulta = " '5%' ";
-            break;
-        case 5:
-            consulta = " '6%' ";
-            break;
-        case 6:
-            consulta = " '7%' ";
-            break;
-        case 7:
-            consulta = " '8%' ";
-            break;
-        case 8:
-            consulta = " '9%' ";
-            break;
+    // 4. Calcular el TOTAL para tu campo separado
+    int totalVols = 0;
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        // Obtenemos el valor de la columna 1 (Volúmenes)
+        Object valor = modelo.getValueAt(i, 1);
+        if (valor != null) {
+            totalVols += Integer.parseInt(valor.toString());
+        }
     }
-    
-    
-     modelo = Conexion.datosInformeTres(consulta);
-        Tabla.setModel(modelo);
+
+    // 5. Mostrar el total en el TEXTFIELD separado
+    campoTotal.setText(String.valueOf(totalVols));
+
+
+
         
-        
+
     }//GEN-LAST:event_ComboSeleccionarActionPerformed
 
     private void ComboSeleccionarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboSeleccionarItemStateChanged
                                                            
     }//GEN-LAST:event_ComboSeleccionarItemStateChanged
 
-    private void ComboTotalVolumenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboTotalVolumenItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboTotalVolumenItemStateChanged
+    private void campoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTotalActionPerformed
 
-    private void ComboTotalVolumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTotalVolumenActionPerformed
-       String seleccion = ComboTotalVolumen.getSelectedItem().toString();
-// Pasamos el filtro formateado para SQL: '1%'
-int total = Conexion.totalInforme3("'" + seleccion + "%'");
-ComboTotalVolumen.setText(String.valueOf(total));
-    }//GEN-LAST:event_ComboTotalVolumenActionPerformed
+    }//GEN-LAST:event_campoTotalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,8 +268,8 @@ ComboTotalVolumen.setText(String.valueOf(total));
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboSeleccionar;
-    private javax.swing.JComboBox<String> ComboTotalVolumen;
     private javax.swing.JTable Tabla;
+    private javax.swing.JTextField campoTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

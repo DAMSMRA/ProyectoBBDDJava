@@ -188,67 +188,32 @@ public static ResumenPrincipal obtenerResumenPrincipal() {
         return model;
     }
 
-    /**
-     * Genera informe de volúmenes por ubicación física. Usa un filtro dinámico
-     * por sección (LIKE) para escoger el numero por el que empieza la seccion
-     * Columnas: - UBICACION - VOLUMENES
-     *
-     * @return
-     */
-    public static DefaultTableModel datosInformeTres(String seccion) {
-        String[] columnas = {"UBICACION", "VOLUMENES"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+   public static DefaultTableModel datosInformeTres(String seccion) {
+    String[] columnas = {"UBICACION", "VOLUMENES"};
+    DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-        String sql = "SELECT codUbicacion, SUM(stock) "
-                + "FROM libros "
-                + "WHERE codUbicacion LIKE " + seccion
-                + "GROUP BY codUbicacion";
+    // SQL Corregido: se añade un espacio antes de GROUP BY para evitar errores
+    String sql = "SELECT codUbicacion, SUM(stock) "
+            + "FROM libros "
+            + "WHERE codUbicacion LIKE " + seccion + " " 
+            + "GROUP BY codUbicacion";
 
-        conectar();
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                modelo.addRow(new Object[]{
-                    rs.getObject(1),
-                    rs.getObject(2)
-                });
-            }
-        } catch (SQLException ex) {
-            System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } finally {
-            cerrarConexion();
+    conectar();
+    try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        while (rs.next()) {
+            modelo.addRow(new Object[]{
+                rs.getObject(1),
+                rs.getObject(2)
+            });
         }
-        return modelo;
+    } catch (SQLException ex) {
+        System.err.println("Error SQL: " + ex.getMessage());
+    } finally {
+        cerrarConexion();
     }
-    
-    
-    /**
-     * Obtiene el total de volúmenes de una sección específica (Informe 3).
-     * @param where El valor para el filtro LIKE (ej. "'1%'")
-     * @return El sumatorio del stock como entero
-     */
-    
-    public static int totalInforme3(String where) {
-        int all = 0;
-        // Es importante asegurar los espacios en el SQL
-        String sql = "SELECT SUM(stock) FROM libros WHERE codUbicacion LIKE " + where;
-
-        conectar();
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-
-            if (rs.next()) {
-                all = rs.getInt(1);
-            }
-
-        } catch (SQLException ex) {
-            // En Java Swing usamos JOptionPane para mostrar mensajes de error
-            javax.swing.JOptionPane.showMessageDialog(null, "Error en Informe 3: " + ex.getMessage());
-            java.util.logging.Logger.getLogger(Conexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } finally {
-            cerrarConexion();
-        }
-        return all;
-    }
-
+    return modelo;
+}
+  
     /**
      * Informe de libros por Comunidad Autónoma (CCAA). Columnas: - CCAA -
      * LIBROS
