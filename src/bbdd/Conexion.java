@@ -300,27 +300,36 @@ public class Conexion {
     }
 
     
+   
+    
+    
+    
     /**
-     * Obtiene los tres libros más vendidos en tienda física.
-     *
+     * Recupera los tres libros más vendidos en la tienda física mediante una consulta agregada.
+     * * El método realiza un JOIN entre las tablas 'libros' y 'ventas_tienda', agrupa los registros
+     * por el identificador del libro y cuenta las ocurrencias en la tabla de ventas. 
+     * Finalmente, ordena los resultados de mayor a menor y limita la salida a los 3 principales.
      * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
      */
-    
     public static DefaultTableModel obtenerTopVentasTienda() {
-        String[] col = {"LIBROS", "VENTA"};
+        String[] col = {"TÍTULO", "VENTAS"}; 
         DefaultTableModel model = new DefaultTableModel(col, 0);
-        String sql = "SELECT l.titulo, l.stock, COUNT(vt.idVenta) "
+        
+        // SQL simplificado: solo título y el conteo de ventas
+        String sql = "SELECT l.titulo, COUNT(vt.idVenta) "
                 + "FROM libros l "
                 + "JOIN ventas_tienda vt ON l.idLibro = vt.idLibro "
                 + "GROUP BY l.idLibro "
-                + "ORDER BY 3 DESC LIMIT 3";
+                + "ORDER BY 2 DESC LIMIT 3";
+                
         conectar();
         try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+               
+                model.addRow(new Object[]{rs.getString(1), rs.getInt(2)});
             }
         } catch (SQLException ex) {
-            System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+           System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         } finally {
             cerrarConexion();
         }
@@ -329,23 +338,28 @@ public class Conexion {
 
     
     /**
-     * Obtiene los tres libros más vendidos a través de plataformas online.
-     *
+     * Recupera los tres libros con mayor éxito de ventas en las plataformas online.
+     * * Ejecuta una consulta SQL que vincula la tabla de catálogo con la de transacciones digitales.
+     * Calcula el volumen de ventas por cada libro utilizando COUNT y GROUP BY, asegurando que
+     * el modelo resultante contenga solo el "Top 3" basado en la frecuencia de pedidos online.
      * @return DefaultTableModel con columnas LIBROS, VOLUMENES, VENTA
      */
     
     public static DefaultTableModel obtenerTopVentasOnline() {
-        String[] col = {"LIBROS", "VENTA"};
+        String[] col = {"TÍTULO", "VENTAS"}; 
         DefaultTableModel model = new DefaultTableModel(col, 0);
-        String sql = "SELECT l.titulo, l.stock, COUNT(vo.idVenta) "
+        
+        String sql = "SELECT l.titulo, COUNT(vo.idVenta) "
                 + "FROM libros l "
                 + "JOIN ventas_online vo ON l.idLibro = vo.idLibro "
                 + "GROUP BY l.idLibro "
-                + "ORDER BY 3 DESC LIMIT 3";
+                + "ORDER BY 2 DESC LIMIT 3";
+                
         conectar();
         try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getString(1), rs.getInt(2), rs.getInt(3)});
+                
+                model.addRow(new Object[]{rs.getString(1), rs.getInt(2)});
             }
         } catch (SQLException ex) {
             System.getLogger(Conexion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
